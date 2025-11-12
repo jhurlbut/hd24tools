@@ -1392,7 +1392,7 @@ mixcontrol->eq_on(3,mixcontrol->eq_on(3));} {}
   Function {savemix(string* strfile)} {return_type {string*}
   } {
     code {fstream to_out(strfile->c_str(),ios::out);
-if (to_out==NULL) {
+if (!to_out.is_open()) {
 	string *error=new string("");
 	*error+="Cannot open mix file for writing.";
 	return error;
@@ -1426,7 +1426,7 @@ return NULL;} {}
   Function {savetrackmix(string* strfile,int base0track)} {return_type {string*}
   } {
     code {fstream to_out(strfile->c_str(),ios::out);
-if (to_out==NULL) {
+if (!to_out.is_open()) {
 	string *error=new string("");
 	*error+="Cannot open mix file for writing.";
 	return error;
@@ -1456,7 +1456,7 @@ return NULL;} {}
   Function {loadmix(string* strfile)} {open return_type {string*}
   } {
     code {fstream from_in(strfile->c_str(),ios::in);
-if (from_in==NULL) {
+if (!from_in.is_open()) {
 	string *error=new string("");
 	*error+="Cannot open mix file for reading.";
 	return error;
@@ -1561,7 +1561,7 @@ return NULL;} {selected
   Function {loadtrackmix(string* strfile,int base0track)} {open return_type {string*}
   } {
     code {fstream from_in(strfile->c_str(),ios::in);
-if (from_in==NULL) {
+if (!from_in.is_open()) {
 	string *error=new string("");
 	*error+="Cannot open mix file for writing.";
 	return error;

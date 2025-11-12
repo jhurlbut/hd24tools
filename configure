@@ -34,10 +34,22 @@ setup_darwin()
 {
     echo "Build environment... Macintosh OS X";
     BUILD_FOR='Darwin'
-    JACK_MAKEOPTS='-L/sw/lib -I/sw/include'
-    PORTAUDIO_MAKEOPTS='-L/sw/lib -I/sw/include'
-    export CFLAGS="-no-cpp-precomp -arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
-    export CXXFLAGS="-no-cpp-precomp -arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk"
+
+    # Check for Homebrew installation paths
+    if [ -d "/opt/homebrew" ]; then
+        # Apple Silicon Mac
+        HOMEBREW_PREFIX="/opt/homebrew"
+    else
+        # Intel Mac
+        HOMEBREW_PREFIX="/usr/local"
+    fi
+
+    JACK_MAKEOPTS="-L${HOMEBREW_PREFIX}/lib -I${HOMEBREW_PREFIX}/include"
+    PORTAUDIO_MAKEOPTS="-L${HOMEBREW_PREFIX}/lib -I${HOMEBREW_PREFIX}/include"
+
+    # Use native architecture (arm64 on Apple Silicon, x86_64 on Intel)
+    export CFLAGS="-arch $(uname -m)"
+    export CXXFLAGS="-arch $(uname -m)"
 }
 
 

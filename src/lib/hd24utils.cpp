@@ -359,7 +359,7 @@ string* hd24utils::savecatalog(hd24fs* currenthd24,string* filename,int catalogo
 		return error;
 	}
 	fstream to_out(filename->c_str(),ios::out);
-	if (to_out==NULL) 
+	if (!to_out.is_open())
 	{
 		*error+="Cannot write catalog.";
 		return error;
@@ -392,7 +392,7 @@ string* hd24utils::printcatalog(hd24fs* currenthd24,int catalogoptions)
 		return error;
 	}
 	fstream to_out(catname.c_str(),ios::out);
-	if (to_out==NULL) 
+	if (!to_out.is_open())
 	{
 		*error+="Cannot write catalog.";
 		return error;

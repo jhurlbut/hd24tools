@@ -46,14 +46,13 @@ WINEXT=.exe
 endif
 
 ifeq ($(BUILD_ARCH), Darwin)
-PLATFORM=OSX10.4
-CFLAGS=-no-cpp-precomp -arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk
-CXXFLAGS=-no-cpp-precomp -arch ppc -arch i386 -isysroot /Developer/SDKs/MacOSX10.4u.sdk
-CC=g++ $(DEBUGGING) $(CXXFLAGS) -Wall -DDARWIN -DRELEASENUM=$(RELEASENUM) -DLIBFILE_SNDFILE=\"libsndfile.1.dylib\" -DLIBFILE_PORTAUDIO=\"libportaudio.dylib\" -DLIBFILE_JACK=\"libjack.dylib\" -DDEFAULTLIBPATH=\"/usr/lib/:/usr/local/lib/:/lib/\"
-LIBDIRS=-L/usr/local/lib -Lsrc/lib/ -L/sw/lib/
-INCLUDEDIRS=-I /usr/local/include -I /sw/include -I src/frontend -I src/lib -I src/backend  -I setup
+PLATFORM=OSX
+# Note: CFLAGS and CXXFLAGS are set by configure script for current architecture
+CC=g++ $(DEBUGGING) $(CXXFLAGS) -Wall -DDARWIN -DRELEASENUM=$(RELEASENUM) -DLIBFILE_SNDFILE=\"libsndfile.1.dylib\" -DLIBFILE_PORTAUDIO=\"libportaudio.2.dylib\" -DLIBFILE_JACK=\"libjack.dylib\" -DDEFAULTLIBPATH=\"/usr/lib/:/usr/local/lib/:/opt/homebrew/lib/:/lib/\"
+LIBDIRS=-L/usr/local/lib -L/opt/homebrew/lib -Lsrc/lib/
+INCLUDEDIRS=-I /usr/local/include -I /opt/homebrew/include -I src/frontend -I src/lib -I src/backend -I setup
 CONSLIBS=-framework CoreAudio -framework AudioToolbox -framework AudioUnit -framework CoreServices `fltk-config --ldstaticflags`
-RESOURCE_LIBSNDFILE_1=$(BINDIR)ppc10.4/libsndfile.dylib
+RESOURCE_LIBSNDFILE_1=
 RESOURCE_LIBSNDFILE_1_FILENAME=libsndfile.1.dylib
 endif
 
