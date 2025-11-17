@@ -8,6 +8,13 @@
 #include <hd24driveimage.h>
 #include <memutils.h>
 #include <FL/x.H> //dave
+
+// One-time idle callback to start polling after Fl::run() begins
+static void start_polling_callback(void* ui_ptr) {
+	HD24UserInterface* ui = (HD24UserInterface*)ui_ptr;
+	Fl::add_timeout(TIMEOUT, HD24UserInterface::poll_callback, ui);
+	// Remove this idle callback after it runs once
+}
 #ifdef LINUX
 #include <X11/xpm.h> //dave
 #endif
@@ -25,7 +32,7 @@ int force;
 int maintmode;
 int wavefixmode;
 int testmode;
-#ifdef LINUX
+#ifndef TIMEOUT
 #define TIMEOUT 0.03
 #endif
 #define ARGDEV "--dev="
@@ -316,7 +323,9 @@ XSetWMHints(fl_display, fl_xid(window), hints);
 #endif
 	window->activate();
 	}
-	// run normally.
+	// Add idle callback to start polling once Fl::run() begins
+	Fl::add_idle(start_polling_callback, &ui);
+	// run normally
 	result= Fl::run(); 
 #ifdef hints
 	if (hints!=NULL)

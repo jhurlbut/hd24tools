@@ -639,7 +639,8 @@ refresh_busy=0;
 //loopmode=0;
 //dispwritecountdown=0;
 init_gui(0);
-Fl::add_timeout(TIMEOUT,poll_callback,this);} {}
+// Timeout deliberately NOT added here - causes busy loop before Fl::run()
+} {}
   }
   Function {update_catalog()} {open return_type void
   } {
@@ -4963,7 +4964,7 @@ return anyexist;} {}
 this->refresh_busy=1;
 refresh(stop_transfer);
 refresh(statusmsg);
-Fl::check();
+// Fl::check() removed to prevent infinite recursion on macOS
 this->refresh_busy=0;} {}
   }
   decl {bool mustdisplaytimer;} {public
