@@ -98,7 +98,7 @@ endif
 # ===============================================
 default: hd24connect
 
-all: hd24hexview hd24connect hd24wavefix hd24browser #hd24towav hd24info
+all: hd24hexview hd24connect hd24wavefix hd24browser hd24browser_gui #hd24towav hd24info
 
 # ===============================================
 # 
@@ -377,6 +377,10 @@ hd24hexview: $(SRCDIR)hd24hexview.cpp $(BINDIR)hd24fs.o $(BINDIR)hd24utils.o $(B
 
 hd24browser: $(SRCDIR)hd24browser.cpp $(BINDIR)hd24fs.o $(BINDIR)hd24utils.o $(BINDIR)hd24driveimage.o
 	$(CC) $(CCARGS) $(SRCDIR)hd24browser.cpp $(BINDIR)memutils.o $(BINDIR)hd24driveimage.o $(BINDIR)hd24fs.o $(BINDIR)hd24devicenamegenerator.o $(BINDIR)hd24utils.o $(BINDIR)convertlib.o -o hd24browser$(WINEXT) $(LIBDIRS) $(INCLUDEDIRS) $(CONSLIBS) -lsndfile -lncurses $(CONSDEPS)
+
+hd24browser_gui: $(UI)hd24browser_gui.cpp $(BINDIR)hd24fs.o $(BINDIR)hd24utils.o $(BINDIR)hd24driveimage.o
+	$(CC) $(CCARGS) $(UI)hd24browser_gui.cpp $(BINDIR)memutils.o $(BINDIR)hd24driveimage.o $(BINDIR)hd24fs.o $(BINDIR)hd24devicenamegenerator.o $(BINDIR)hd24utils.o $(BINDIR)convertlib.o -o hd24browser_gui$(WINEXT) $(LIBDIRS) $(INCLUDEDIRS) $(UILIBS) -lsndfile
+	fltk-config --post hd24browser_gui
 
 $(BINDIR)Fl_Native_File_Chooser.o: $(LIB)FL/Fl_Native_File_Chooser.H $(LIB)FL/Fl_Native_File_Chooser.cxx
 	$(CC) $(CCARGS) -c $(LIB)FL/Fl_Native_File_Chooser.cxx -o $(BINDIR)Fl_Native_File_Chooser.o $(INCLUDEDIRS) $(LIBDIRS)
